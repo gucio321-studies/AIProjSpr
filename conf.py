@@ -17,15 +17,15 @@ sys.path.insert(0, os.path.abspath('.'))
 # -- Project information -----------------------------------------------------
 import time
 
-project = 'FT2zXcXvX'
-author = '[AUTORZY]'
+project = 'AIProjSpr'
+author = 'Maciej Szeptuch'
 titlepage = {
         "faculty": "Fizyki i Informatyki Stosowanej",
         "year": "auto",
-        "groupID": "[NR GRUPY ĆWICZENIOWEJ]",
-        "team": "[NR ZESPOŁU]",
-        "title": "[TEMAT ĆWICZENIA]",
-        "number": "[NUMER ĆWICZENIA]",
+        "groupID": "-",
+        "team": "-",
+        "title": "Electronics Components Classification model.",
+        "number": "project",
 
         "taskDate": "auto", # [DATA LABORATORIUM]
         "creationDate": "auto", # [DATA POWSTANIA SPRAWOZDANIA]
@@ -72,7 +72,7 @@ templates_path = ['_templates']
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = 'pl'
+language = 'en'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
