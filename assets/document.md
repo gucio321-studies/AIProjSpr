@@ -1,7 +1,7 @@
 # Abstract
 
 Opracowano sieć neuronową wykorzystując podejście uczenia transferowego.
-Dokładność klasyfikacji wyniosła
+Dokładność klasyfikacji wyniosła około 51% dla najlepszego wytrenowanego modelu.
 
 # Goals of the project
 
@@ -10,6 +10,15 @@ The main goal of the project was to develop a neural network capable of classify
 # Theoritical background
 
 ## Transfer learning
+
+**Transfer learning** is a machine learning technique where a model developed for a particular task is reused as the starting point for a model on a second task.
+It is particularly useful when the second task has limited data, as it allows the model to leverage the knowledge gained from the first task.
+
+There are several popular pre-trained models that can be used in this project, including (sorted by the number of parameters):
+- MobileNetV2 (3.4 million parameters)
+- EfficientNetB0 (5.3 million parameters)
+- EfficientNetB2 (7.7 million parameters)
+- ResNet50 (25.6 million parameters)
 
 ## Model accuracy
 
@@ -28,7 +37,7 @@ For example, if there are `10` classes, random guessing would result in an accur
 
 ## Loss function
 
-As the **accuracy** is deffinitly the most intuitive metric to evaluate the performance of a model, it is not always the best choice for training to optimize against.
+As the **accuracy** is deffinietly the most intuitive metric to evaluate the performance of a model, it is not always the best choice for training to optimize against.
 
 Much more commonly used is the **cross-entropy loss** (also known as log loss), which measures the performance of a classification model whose output is a probability value between `0` and `1`. The formula for cross-entropy loss for a single instance is:
 
@@ -92,7 +101,7 @@ The table below summarizes the number of images in each category:
 ```
 
 ```{important}
-The category `images` is a kind of `kaggle` artifact and in fact does not contain any images (it is gnored in the further training).
+The category `images` is a kind of `kaggle` artifact and in fact does not contain any images (it is ignored in the further training).
 ```
 
 ```{admonition} Images preprocessing
@@ -116,7 +125,7 @@ There were two approaches considered for the model architecture:
 
 ### Convolutional Neural Network (CNN)
 
-The network used in that apprach was made of one convolutional layer with `64` filters of size `3x3`, followed by a max pooling, flatten and dense layers.
+The network used in that approach was made of one convolutional layer with `64` filters of size `3x3`, followed by a max pooling, flatten and dense layers.
 The following code listing shows the exact architecture of the CNN with all the parameters:
 
 ```python
@@ -127,6 +136,8 @@ model.add(keras.layers.Conv2D(64, kernel_size=(3, 3), activation='relu'))
 model.add(keras.layers.MaxPooling2D(pool_size=(2,2)))
 model.add(keras.layers.Dropout(0.25))
 
+model.add(keras.layers.Conv2D(64, kernel_size=(3, 3), activation='relu'))
+model.add(keras.layers.Conv2D(64, kernel_size=(3, 3), activation='relu'))
 model.add(keras.layers.MaxPooling2D(pool_size=(2,2)))
 model.add(keras.layers.Dropout(0.25))
 
@@ -148,7 +159,7 @@ model.summary()
 
 The following learning procedure was applied to all the models:
 1. First-stage training: the base model (pre-trained on ImageNet) was frozen and only the top layers were trained.
-There were Early Stopping ass well as Reduce Learning Rate callbacks applied to improve the procedure.
+There were Early Stopping as well as Reduce Learning Rate callbacks applied to improve the procedure.
 ```python
 early_stopping = EarlyStopping(
     monitor='val_loss',
@@ -169,7 +180,7 @@ reduce_lr = keras.callbacks.ReduceLROnPlateau(
 
 history = model.fit(X_train, Y_train,
                     batch_size=batch_size,
-                    epochs=epochs,
+                    epochs=40,
                     verbose=1,
                     validation_data=(X_test, Y_test),
                     callbacks=[early_stopping, reduce_lr]
@@ -198,7 +209,7 @@ reduce_lr = keras.callbacks.ReduceLROnPlateau(
 history_ft = model.fit(
     X_train, Y_train,
     validation_data=(X_test, Y_test),
-    epochs=ft_epohs,
+    epochs=40,
     batch_size=batch_size,
     callbacks=[early_stopping, reduce_lr]
 )
@@ -214,7 +225,7 @@ For CNN, the second stage of training was not applied. Also, no layers were froz
 
 # Training results
 
-THe learning procedure as described above was applied to all the models. The table below summarizes the results of the training process:
+The learning procedure as described above was applied to all the models. The table below summarizes the results of the training process:
 
 ```{table} Training results summary
 :name: score
@@ -304,7 +315,26 @@ The further analysis will be performed using an instance of that model.
 EfficientNetB0 confusion matrix.
 ```
 
+Some of the confusions have been analyzed and the following observations were made:
+- Electric Relay category is really similar to the Relay category (even the first image in the dataset is the same for both categories). Thats why the model very often confuses those two categories:
+```{figure} efficientNetB0/expected_electric-relay_got_relay.png
+:width: 50%
+
+Example photo where Electric Relay was recognized as Relay.
+```
+- The model also confuses the Junction Transistor and PNP Transistors. They are in fact really similar (it is even hard to distinguish for real person without knowing the exact component ID).
+The additional problem is the dataset itself, because images are of a very low quality (which is also lowered to make the model trainable on available resources).
+```{figure} efficientNetB0/expected_junction-transistor_got_PNP-transistor.png
+:width: 50%
+
+Example photo where Junction Transistor was recognized as PNP Transistor.
+```
+
 # Summary
+
+The project aimed to develop a neural network for classifying electronic components using transfer learning.
+The best model achieved an accuracy of around `51%`, which is significantly better than random guessing (approximately `2.94%` for `34` classes).
+However, there is still room for improvement, and further analysis of the confusion matrix revealed that some categories are particularly challenging to distinguish due to their visual similarity.
 
 # References
 
