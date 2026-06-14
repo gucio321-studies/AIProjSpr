@@ -133,6 +133,7 @@ def defineLatexVar(varName : str, var : str) -> str:
 
 latex_additional_files = ['resources/titlepage.cls']
 latex_elements = {
+        "figure_align": "H",
         'papersize': 'a4paper',
         'pointsize': '12pt',
         'preamble': r'''
@@ -148,6 +149,7 @@ latex_elements = {
         \usepackage{graphicx}
         \usepackage{makecell}
         \usepackage{caption}
+        \usepackage{float}
 
         \DeclareCaptionLabelFormat{custom}{#1~\thechapter.#2}
         \captionsetup{labelformat=custom}
