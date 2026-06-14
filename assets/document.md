@@ -338,6 +338,6 @@ However, there is still room for improvement, and further analysis of the confus
 
 # References
 
-1. Project source code <https://github.com/>
+1. Project source code <https://github.com/gucio321-studies/AIProjSpr/blob/master/project.ipynb>
 2. Dataset source <https://www.kaggle.com/datasets/aryaminus/electronic-components>
 3. OpenCV's interpolation methods <https://opencv-opencv.mintlify.app/examples/image-transformations#interpolation-methods>
