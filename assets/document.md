@@ -216,8 +216,34 @@ For CNN, the second stage of training was not applied. Also, no layers were froz
 
 THe learning procedure as described above was applied to all the models. The table below summarizes the results of the training process:
 
-## CNN Network
-## MobileNetV2
+```{table} Training results summary
+:name: score
+
+| Model | Accuracy before tune [%] | Loss before tune | Accuracy after tune [%] | Loss after tune |
+|---:|:---:|:---:|:---:|:---:|
+| CNN | 19.93 | 2.8599 | N/A | N/A |
+| MobileNetV2 | 47.68 | 1.7457 | 46.59 | 1.7837 |
+| EfficientNetB0 |  51.14 | 1.5922 | 51.64 | 1.5652 |
+| EfficientNetB2 |  51.05 | 1.5954 | 49 | 1.6648 |
+| ResNet50 | 50.18 | 1.6864 | 50.55 | 1.738 |
+```
+
+## Model Accuracy evolution
+
+The following sections present the accuracy and validation accuracy plots for each model.
+
+```{note}
+The models might have been overfitted, but this was expected, because the the training stopped anyway as soon as the validation loss stopped improving.
+```
+
+### CNN Network
+
+```{figure} ./CNN/accuracy_pretune.png
+:width: 75%
+CNN Accuracy and Validation Accuracy.
+```
+
+### MobileNetV2
 
 ```{figure} ./mobileNetV2/accuracy_pretune.png
 :width: 75%
@@ -231,19 +257,52 @@ MobileNetV2 Accuracy and Validation Accuracy before fine tuning.
 MobileNetV2 Accuracy and Validation Accuracy after fine tuning.
 ```
 
+### EfficientNetB0
 
-```{table}
-| Model | Accuracy before tune [%] | Loss before tune | Accuracy after tune [%] | Loss after tune |
-|---:|:---:|:---:|:---:|:---:|
-| CNN | 19.93 | 2.8599 | N/A | N/A |
-| MobileNetV2 | 47.68 | 1.7457 | 46.59 | 1.7837 |
-| EfficientNetB0 |  51.14 | 1.5922 | 51.64 | 1.5652 |
-| EfficientNetB2 |  51.05 | 1.5954 | 49 | 1.6648 |
-| ResNet50 | 50.18 | 1.6864 | 50.55 | 1.738 |
+```{figure} ./efficientNetB0/accuracy_pretune.png
+:width: 75%
+EfficientNetB0 Accuracy and Validation Accuracy before fine tuning.
 ```
 
-## Models Comparison
+```{figure} ./efficientNetB0/accuracy_posttune.png
+:width: 75%
+EfficientNetB0 Accuracy and Validation Accuracy after fine tuning.
+```
 
+### EfficientNetB2
+
+```{figure} ./efficientNetB2/accuracy_pretune.png
+:width: 75%
+EfficientNetB2 Accuracy and Validation Accuracy before fine tuning.
+```
+
+```{figure} ./efficientNetB2/accuracy_posttune.png
+:width: 75%
+EfficientNetB2 Accuracy and Validation Accuracy after fine tuning.
+```
+
+### ResNet50
+
+```{figure} ./resNet50/accuracy_pretune.png
+:width: 75%
+ResNet50 Accuracy and Validation Accuracy before fine tuning.
+```
+
+```{figure} ./resNet50/accuracy_posttune.png
+:width: 75%
+ResNet50 Accuracy and Validation Accuracy after fine tuning.
+```
+
+## Confusion matrix analysis
+
+```{tip}
+After analyzing {numref}`score`, the `EfficientNetB0` model was selected as the best compromise between accuracy and training time.
+The further analysis will be performed using an instance of that model.
+```
+
+```{figure} ./efficientNetB0/confusion_matrix.pdf
+EfficientNetB0 confusion matrix.
+```
 
 # Summary
 
